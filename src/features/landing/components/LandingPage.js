@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import Header from "../../../components/Header";
+import Header from "../../components/Header";
 import landingBackgroundImage from "../images/LandingBackgroundImage.jpg";
 import Button from "../../../components/Button";
 import history from "../../../routing/history";
@@ -41,14 +41,14 @@ const StyledH2 = styled.h2`
 `;
 
 const Wrapper = styled.div`
-  width: 60%;
+  width: 70%;
 `;
 
 const StyledButton = styled(Button)`
-  width: 256px;
+  width: 22rem;
 `;
 
-function LandingPage() {
+const LandingPage = () => {
   function handleOnClick() {
     history.push("/apply");
   }
@@ -73,6 +73,6 @@ function LandingPage() {
       </Container>
     </MainContainer>
   );
-}
+};
 
 export default LandingPage;
