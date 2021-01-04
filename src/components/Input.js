@@ -7,7 +7,7 @@ const StyledInput = styled.input`
   border: 1px solid ${(props) => props.theme.onPrimary};
   border-radius: 4px;
   color: ${(props) => props.theme.onPrimary};
-  width: 23rem;
+  width: 100%;
   height: 2rem;
 `;
 
