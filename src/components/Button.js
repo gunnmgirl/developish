@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const StyledButton = styled.button`
   border: 0;
-  border-radius: 16px;
+  border-radius: 8px;
   background-color: ${(props) => props.theme.secondary};
   color: ${(props) => props.theme.onSecondary};
   display: flex;

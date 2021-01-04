@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
-import LogoIcon from "../icons/LogoIcon";
+import Logo from "./Logo";
 
 const Container = styled.div`
   display: flex;
@@ -12,21 +12,12 @@ const Container = styled.div`
   font-size: 1.5rem;
 `;
 
-const LogoWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 const Wrapper = styled.div``;
-
-const StyledSpan = styled.span`
-  margin: 0 1rem;
-`;
 
 const StyledNavLink = styled(NavLink)`
   text-decoration: none;
   color: ${(props) => props.theme.onPrimary};
-  margin-right: ${(props) => props.marginRight || "3rem"};
+  margin-right: ${(props) => props.marginright || "3rem"};
   &.active {
     color: ${(props) =>
       props.noactivestyle ? props.theme.onPrimary : props.theme.onActive};
@@ -36,12 +27,7 @@ const StyledNavLink = styled(NavLink)`
 function Header() {
   return (
     <Container>
-      <StyledNavLink to="/" exact noactivestyle="true">
-        <LogoWrapper>
-          <LogoIcon />
-          <StyledSpan>Developish</StyledSpan>
-        </LogoWrapper>
-      </StyledNavLink>
+      <Logo />
       <Wrapper>
         <StyledNavLink to="/about">About</StyledNavLink>
         <StyledNavLink to="/contact">Contact Us</StyledNavLink>

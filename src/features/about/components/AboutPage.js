@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import Header from "../../../components/Header";
+import Header from "../../components/Header";
 
 const Container = styled.div`
   display: flex;
@@ -27,7 +27,7 @@ const StyledH2 = styled.h2`
   font-size: 2rem;
 `;
 
-function About() {
+const About = () => {
   return (
     <MainContainer>
       <Header />
@@ -56,6 +56,6 @@ function About() {
       </Container>
     </MainContainer>
   );
-}
+};
 
 export default About;
