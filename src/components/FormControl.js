@@ -12,16 +12,12 @@ const StyledCaption = styled.div`
 `;
 
 const FormControl = (props) => {
-  const { label, caption, children, disabled, error, positive } = props;
+  const { label, caption, children } = props;
   return (
     <Container>
       {label && <label>{label}</label>}
-      {React.cloneElement(children, { disabled, error, positive })}
-      {caption && (
-        <StyledCaption error={error} positive={positive}>
-          {caption}
-        </StyledCaption>
-      )}
+      {React.cloneElement(children)}
+      {caption && <StyledCaption>{caption}</StyledCaption>}
     </Container>
   );
 };
