@@ -158,6 +158,7 @@ const Apply = () => {
     if (step === 2) {
       getCountries();
     }
+    formik.setTouched({});
   }, [step]);
 
   return (
@@ -166,7 +167,10 @@ const Apply = () => {
       <StyledForm onSubmit={formik.handleSubmit}>
         {step === 1 && (
           <>
-            <FormControl label="First Name" caption={formik.errors.firstName}>
+            <FormControl
+              label="First Name"
+              caption={formik.touched.firstName && formik.errors.firstName}
+            >
               <StyledInput
                 name="firstName"
                 onChange={formik.handleChange}
@@ -174,7 +178,10 @@ const Apply = () => {
                 value={formik.values.firstName}
               />
             </FormControl>
-            <FormControl label="Last Name" caption={formik.errors.lastName}>
+            <FormControl
+              label="Last Name"
+              caption={formik.touched.lastName && formik.errors.lastName}
+            >
               <StyledInput
                 name="lastName"
                 onChange={formik.handleChange}
@@ -182,7 +189,10 @@ const Apply = () => {
                 value={formik.values.lastName}
               />
             </FormControl>
-            <FormControl label="Email" caption={formik.errors.email}>
+            <FormControl
+              label="Email"
+              caption={formik.touched.email && formik.errors.email}
+            >
               <StyledInput
                 name="email"
                 onChange={formik.handleChange}
@@ -204,7 +214,7 @@ const Apply = () => {
         )}
         {step === 2 && (
           <>
-            <FormControl label="Country" caption={formik.errors.country}>
+            <FormControl label="Country">
               <Select
                 name="country"
                 options={countries}
@@ -212,7 +222,10 @@ const Apply = () => {
               />
             </FormControl>
             <Wrapper>
-              <FormControl label="City" caption={formik.errors.city}>
+              <FormControl
+                label="City"
+                caption={formik.touched.city && formik.errors.city}
+              >
                 <StyledInput
                   width="11rem"
                   name="city"
@@ -223,7 +236,9 @@ const Apply = () => {
               </FormControl>
               <FormControl
                 label="Street Address"
-                caption={formik.errors.streetAddress}
+                caption={
+                  formik.touched.streetAddress && formik.errors.streetAddress
+                }
               >
                 <StyledInput
                   width="11rem"
@@ -236,7 +251,7 @@ const Apply = () => {
             </Wrapper>
             <FormControl
               label="Phone Number"
-              caption={formik.errors.phoneNumber}
+              caption={formik.touched.phoneNumber && formik.errors.phoneNumber}
             >
               <Wrapper>
                 <Container>
