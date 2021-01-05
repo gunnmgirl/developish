@@ -73,9 +73,11 @@ const stepOneValidation = Yup.object().shape({
   email: Yup.string()
     .required("Email is required!")
     .email("Must be a valid email!"),
+  jobPosition: Yup.string().required("Job position is required!"),
 });
 
 const stepTwoValidation = Yup.object().shape({
+  country: Yup.string().required("Country is required!"),
   city: Yup.string().required("City is required!"),
   streetAddress: Yup.string().required("Street address is required!"),
   phoneNumber: Yup.number()
@@ -171,11 +173,19 @@ const Apply = () => {
     formik.setFieldValue("jobPosition", props.value);
   };
 
+  const handleOnJobPositionBlur = () => {
+    formik.setFieldTouched("jobPosition", true);
+  };
+
   const handleOnCountryChange = (props) => {
     formik.setFieldValue("country", props.value);
     const country = countryInfo.find((country) => country.name === props.label);
     setCallingCode(country.callingCodes[0]);
     setFlag(country.flag);
+  };
+
+  const handleOnCountryBlur = () => {
+    formik.setFieldTouched("country", true);
   };
 
   const handleOnImageUploadChange = async (event) => {
@@ -241,12 +251,16 @@ const Apply = () => {
                 value={formik.values.email}
               />
             </FormControl>
-            <FormControl label="Job Position">
+            <FormControl
+              label="Job Position"
+              caption={formik.touched.jobPosition && formik.errors.jobPosition}
+            >
               <Select
                 type="text"
                 name="jobPosition"
                 options={jobPositions}
                 onChange={handleOnJobPositionChange}
+                onBlur={handleOnJobPositionBlur}
               />
             </FormControl>
           </>
@@ -259,6 +273,7 @@ const Apply = () => {
                 name="country"
                 options={countries}
                 onChange={handleOnCountryChange}
+                onBlur={handleOnCountryBlur}
               />
             </FormControl>
             <Wrapper>
