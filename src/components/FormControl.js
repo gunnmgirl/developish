@@ -5,6 +5,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin: 1rem 0;
+  width: 100%;
 `;
 
 const StyledCaption = styled.div`

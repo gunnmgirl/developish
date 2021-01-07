@@ -11,7 +11,7 @@ import Logo from "../../components/Logo";
 import Textarea from "../../../components/Textarea";
 
 const StyledButton = styled(Button)`
-  width: 20rem;
+  width: 10rem;
   margin: 1rem 0;
 `;
 
@@ -20,7 +20,7 @@ const StyledInput = styled(Input)`
 `;
 
 const StyledTextarea = styled(Textarea)`
-  width: 23rem;
+  width: 100%;
   height: 5rem;
 `;
 
@@ -28,8 +28,7 @@ const StyledForm = styled.form`
   width: 30rem;
   background-color: ${(props) => props.theme.primary};
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
   margin-top: 2rem;
   border-radius: 8px;
   padding: 1rem 0;
@@ -44,10 +43,22 @@ const MainContainer = styled.div`
   background-color: ${(props) => props.theme.ternary};
 `;
 
+const MainWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 23rem;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+`;
+
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 23rem;
+  width: 100%;
 `;
 
 const Container = styled.div`
@@ -136,36 +147,7 @@ const Apply = () => {
       previousPositions: "",
       imageFile: null,
     },
-    onSubmit: async (values, { resetForm }) => {
-      if (step === 3) {
-        const formData = new FormData();
-        formData.append("file", values.imageFile);
-        formData.append("firstName", values.firstName);
-        formData.append("lastName", values.lastName);
-        formData.append("email", values.email);
-        formData.append("jobPosition", values.jobPosition);
-        formData.append("country", values.country);
-        formData.append("city", values.city);
-        formData.append("streetAddress", values.streetAddress);
-        formData.append("phoneNumber", values.phoneNumber);
-        formData.append("skype", values.skype);
-        formData.append("previousPositions", values.previousPositions);
-
-        const response = await fetch(
-          `${process.env.REACT_APP_DEVELOPSIO_API}/auth/signup`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-        resetForm();
-      } else {
-        const newStep = step + 1;
-        const newValidationSchema = getValidationSchema(newStep);
-        setStep(newStep);
-        setValidationSchemas(newValidationSchema);
-      }
-    },
+    onSubmit: () => {},
     validationSchema,
   });
 
@@ -193,6 +175,44 @@ const Apply = () => {
     formik.setFieldValue("imageFile", file);
   };
 
+  const handleBackButton = () => {
+    const newStep = step - 1;
+    const newValidationSchema = getValidationSchema(newStep);
+    setStep(newStep);
+    setValidationSchemas(newValidationSchema);
+  };
+
+  const handleContinueButton = () => {
+    const newStep = step + 1;
+    const newValidationSchema = getValidationSchema(newStep);
+    setStep(newStep);
+    setValidationSchemas(newValidationSchema);
+  };
+
+  const handleApplyButton = async () => {
+    const wholePhoneNumber = callingCode.concat(formik.values.phoneNumber);
+    const formData = new FormData();
+    formData.append("file", formik.values.imageFile);
+    formData.append("firstName", formik.values.firstName);
+    formData.append("lastName", formik.values.lastName);
+    formData.append("email", formik.values.email);
+    formData.append("jobPosition", formik.values.jobPosition);
+    formData.append("country", formik.values.country);
+    formData.append("city", formik.values.city);
+    formData.append("streetAddress", formik.values.streetAddress);
+    formData.append("phoneNumber", wholePhoneNumber);
+    formData.append("skype", formik.values.skype);
+    formData.append("previousPositions", formik.values.previousPositions);
+
+    const response = await fetch(
+      `${process.env.REACT_APP_DEVELOPSIO_API}/auth/signup`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+  };
+
   React.useEffect(() => {
     const getCountries = async () => {
       const result = await fetch(process.env.REACT_APP_COUNTRIES);
@@ -203,7 +223,7 @@ const Apply = () => {
       setCountryInfo(data);
       setCountries(newCountries);
     };
-    if (step === 2) {
+    if (step === 2 && countries.length === 0) {
       getCountries();
     }
     formik.setTouched({});
@@ -213,154 +233,207 @@ const Apply = () => {
     <MainContainer>
       <Logo large secondary="true" />
       <StyledForm onSubmit={formik.handleSubmit} enctype="multipart/form-data">
-        {step === 1 && (
-          <>
-            <FormControl
-              label="First Name"
-              caption={formik.touched.firstName && formik.errors.firstName}
-            >
-              <StyledInput
-                type="text"
-                name="firstName"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.firstName}
-              />
-            </FormControl>
-            <FormControl
-              label="Last Name"
-              caption={formik.touched.lastName && formik.errors.lastName}
-            >
-              <StyledInput
-                type="text"
-                name="lastName"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.lastName}
-              />
-            </FormControl>
-            <FormControl
-              label="Email"
-              caption={formik.touched.email && formik.errors.email}
-            >
-              <StyledInput
-                type="text"
-                name="email"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.email}
-              />
-            </FormControl>
-            <FormControl
-              label="Job Position"
-              caption={formik.touched.jobPosition && formik.errors.jobPosition}
-            >
-              <Select
-                type="text"
-                name="jobPosition"
-                options={jobPositions}
-                onChange={handleOnJobPositionChange}
-                onBlur={handleOnJobPositionBlur}
-              />
-            </FormControl>
-          </>
-        )}
-        {step === 2 && (
-          <>
-            <FormControl label="Country">
-              <Select
-                type="text"
-                name="country"
-                options={countries}
-                onChange={handleOnCountryChange}
-                onBlur={handleOnCountryBlur}
-              />
-            </FormControl>
-            <Wrapper>
+        <MainWrapper>
+          {step === 1 && (
+            <>
               <FormControl
-                label="City"
-                caption={formik.touched.city && formik.errors.city}
+                label="First Name"
+                caption={formik.touched.firstName && formik.errors.firstName}
               >
                 <StyledInput
                   type="text"
-                  width="11rem"
-                  name="city"
+                  name="firstName"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.city}
+                  value={formik.values.firstName}
                 />
               </FormControl>
               <FormControl
-                label="Street Address"
+                label="Last Name"
+                caption={formik.touched.lastName && formik.errors.lastName}
+              >
+                <StyledInput
+                  type="text"
+                  name="lastName"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.lastName}
+                />
+              </FormControl>
+              <FormControl
+                label="Email"
+                caption={formik.touched.email && formik.errors.email}
+              >
+                <StyledInput
+                  type="text"
+                  name="email"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.email}
+                />
+              </FormControl>
+              <FormControl
+                label="Job Position"
                 caption={
-                  formik.touched.streetAddress && formik.errors.streetAddress
+                  formik.touched.jobPosition && formik.errors.jobPosition
                 }
               >
-                <StyledInput
+                <Select
                   type="text"
-                  width="11rem"
-                  name="streetAddress"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.streetAddress}
+                  name="jobPosition"
+                  options={jobPositions}
+                  value={jobPositions.find(
+                    (jobPosition) =>
+                      jobPosition.value === formik.values.jobPosition
+                  )}
+                  onChange={handleOnJobPositionChange}
+                  onBlur={handleOnJobPositionBlur}
                 />
               </FormControl>
-            </Wrapper>
-            <FormControl
-              label="Phone Number"
-              caption={formik.touched.phoneNumber && formik.errors.phoneNumber}
-            >
+            </>
+          )}
+          {step === 2 && (
+            <>
+              <FormControl
+                label="Country"
+                caption={formik.touched.country && formik.errors.country}
+              >
+                <Select
+                  type="text"
+                  name="country"
+                  options={countries}
+                  onChange={handleOnCountryChange}
+                  onBlur={handleOnCountryBlur}
+                  value={countries.find(
+                    (country) => country.value === formik.values.country
+                  )}
+                />
+              </FormControl>
               <Wrapper>
-                <Container>
-                  <span>{callingCode}</span>
-                  <FlagIcon icon={flag}></FlagIcon>
-                </Container>
+                <FormControl
+                  label="City"
+                  caption={formik.touched.city && formik.errors.city}
+                >
+                  <StyledInput
+                    type="text"
+                    width="11rem"
+                    name="city"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.city}
+                  />
+                </FormControl>
+                <FormControl
+                  label="Street Address"
+                  caption={
+                    formik.touched.streetAddress && formik.errors.streetAddress
+                  }
+                >
+                  <StyledInput
+                    type="text"
+                    width="11rem"
+                    name="streetAddress"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.streetAddress}
+                  />
+                </FormControl>
+              </Wrapper>
+              <FormControl
+                label="Phone Number"
+                caption={
+                  formik.touched.phoneNumber && formik.errors.phoneNumber
+                }
+              >
+                <Wrapper>
+                  <Container>
+                    <FlagIcon icon={flag}></FlagIcon>
+                    <span>{callingCode}</span>
+                  </Container>
+                  <StyledInput
+                    type="text"
+                    name="phoneNumber"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.phoneNumber}
+                    width="16rem"
+                  />
+                </Wrapper>
+              </FormControl>
+              <FormControl label="Skype">
                 <StyledInput
                   type="text"
-                  name="phoneNumber"
+                  name="skype"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.phoneNumber}
-                  width="16rem"
+                  value={formik.values.skype}
                 />
-              </Wrapper>
-            </FormControl>
-            <FormControl label="Skype">
-              <StyledInput
-                type="text"
-                name="skype"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.skype}
-              />
-            </FormControl>
-          </>
-        )}
-        {step === 3 && (
-          <>
-            <FormControl label="Previous Positions">
-              <StyledTextarea
-                resize="true"
-                type="text"
-                name="previousPositions"
-                onBlur={formik.handleBlur}
-                value={formik.values.previousPositions}
-                onChange={formik.handleChange}
-              ></StyledTextarea>
-            </FormControl>
-            <FormControl label="Upload Image">
-              <StyledInput
-                name="imageFile"
-                type="file"
-                onChange={handleOnImageUploadChange}
-                onBlur={formik.handleBlur}
-              />
-            </FormControl>
-          </>
-        )}
-        <StyledButton type="submit" onClick={formik.handleSubmit}>
-          {step === 3 ? "Apply!" : "Continue"}
-        </StyledButton>
+              </FormControl>
+            </>
+          )}
+          {step === 3 && (
+            <>
+              <FormControl
+                label="Previous Positions"
+                caption={
+                  formik.touched.previousPositions &&
+                  formik.errors.previousPositions
+                }
+              >
+                <StyledTextarea
+                  resize="true"
+                  type="text"
+                  name="previousPositions"
+                  onBlur={() => {
+                    formik.setFieldTouched("previousPositions", true);
+                  }}
+                  value={formik.values.previousPositions}
+                  onChange={formik.handleChange}
+                ></StyledTextarea>
+              </FormControl>
+              <FormControl label="Upload Image">
+                <StyledInput
+                  name="imageFile"
+                  type="file"
+                  onChange={handleOnImageUploadChange}
+                  onBlur={formik.handleBlur}
+                />
+              </FormControl>
+            </>
+          )}
+          <ButtonWrapper>
+            {step > 1 && (
+              <StyledButton type="button" onClick={handleBackButton}>
+                Back
+              </StyledButton>
+            )}
+            {step === 3 ? (
+              <StyledButton
+                type="button"
+                onClick={() => {
+                  formik.handleSubmit();
+                  if (formik.isValid) {
+                    handleApplyButton();
+                  }
+                }}
+              >
+                Apply!
+              </StyledButton>
+            ) : (
+              <StyledButton
+                type="button"
+                onClick={() => {
+                  formik.handleSubmit();
+                  if (formik.isValid) {
+                    handleContinueButton();
+                  }
+                }}
+              >
+                Continue
+              </StyledButton>
+            )}
+          </ButtonWrapper>
+        </MainWrapper>
       </StyledForm>
     </MainContainer>
   );
