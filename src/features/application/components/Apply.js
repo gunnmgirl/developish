@@ -84,7 +84,7 @@ const stepOneValidation = Yup.object().shape({
   email: Yup.string()
     .required("Email is required!")
     .email("Must be a valid email!"),
-  jobPosition: Yup.string().required("Job position is required!"),
+  positionId: Yup.string().required("Job position is required!"),
 });
 
 const stepTwoValidation = Yup.object().shape({
@@ -120,25 +120,16 @@ const Apply = () => {
   );
   const [flag, setFlag] = React.useState(null);
   const [countries, setCountries] = React.useState([]);
+  const [jobPositions, setJobPositions] = React.useState([]);
   const [countryInfo, setCountryInfo] = React.useState(null);
   const [callingCode, setCallingCode] = React.useState("");
-
-  const jobPositions = [
-    { value: "fullStackDeveloper", label: "Full Stack Developer" },
-    { value: "uiDesigner", label: "UI Designer" },
-    { value: "uxDesigner", label: "UX Designer" },
-    { value: "backEndDeveloper", label: "Back-end Developer" },
-    { value: "projectMenager", label: "Project Menager" },
-    { value: "mobileDeveloper", label: "Mobile Developer" },
-    { value: "dataScientist", label: "Data Scientist" },
-  ];
 
   const formik = useFormik({
     initialValues: {
       firstName: "",
       lastName: "",
       email: "",
-      jobPosition: "",
+      positionId: "",
       country: "",
       city: "",
       streetAddress: "",
@@ -152,11 +143,11 @@ const Apply = () => {
   });
 
   const handleOnJobPositionChange = (props) => {
-    formik.setFieldValue("jobPosition", props.value);
+    formik.setFieldValue("positionId", props.value);
   };
 
   const handleOnJobPositionBlur = () => {
-    formik.setFieldTouched("jobPosition", true);
+    formik.setFieldTouched("positionId", true);
   };
 
   const handleOnCountryChange = (props) => {
@@ -196,7 +187,7 @@ const Apply = () => {
     formData.append("firstName", formik.values.firstName);
     formData.append("lastName", formik.values.lastName);
     formData.append("email", formik.values.email);
-    formData.append("jobPosition", formik.values.jobPosition);
+    formData.append("positionId", formik.values.positionId);
     formData.append("country", formik.values.country);
     formData.append("city", formik.values.city);
     formData.append("streetAddress", formik.values.streetAddress);
@@ -223,8 +214,21 @@ const Apply = () => {
       setCountryInfo(data);
       setCountries(newCountries);
     };
+    const getPositions = async () => {
+      const result = await fetch(
+        `${process.env.REACT_APP_DEVELOPSIO_API}/position`
+      );
+      const data = await result.json();
+      const newJobPositions = data.map((jobPosition) => {
+        return { label: jobPosition.name, value: jobPosition.id };
+      });
+      setJobPositions(newJobPositions);
+    };
     if (step === 2 && countries.length === 0) {
       getCountries();
+    }
+    if (step === 1 && jobPositions.length === 0) {
+      getPositions();
     }
     formik.setTouched({});
   }, [step]);
@@ -274,17 +278,15 @@ const Apply = () => {
               </FormControl>
               <FormControl
                 label="Job Position"
-                caption={
-                  formik.touched.jobPosition && formik.errors.jobPosition
-                }
+                caption={formik.touched.positionId && formik.errors.positionId}
               >
                 <Select
                   type="text"
-                  name="jobPosition"
+                  name="positionId"
                   options={jobPositions}
                   value={jobPositions.find(
                     (jobPosition) =>
-                      jobPosition.value === formik.values.jobPosition
+                      jobPosition.value === formik.values.positionId
                   )}
                   onChange={handleOnJobPositionChange}
                   onBlur={handleOnJobPositionBlur}
