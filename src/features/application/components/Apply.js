@@ -2,6 +2,8 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import Button from "../../../components/Button";
 import Logo from "../../components/Logo";
@@ -86,6 +88,7 @@ const Apply = () => {
     stepOneValidation
   );
   const [callCode, setCallCode] = React.useState("");
+  const history = useHistory();
 
   const formik = useFormik({
     initialValues: {
@@ -104,6 +107,19 @@ const Apply = () => {
     onSubmit: () => {},
     validationSchema,
   });
+
+  const notify = (message, type) => {
+    switch (type) {
+      case "error":
+        toast.error(message);
+        break;
+      case "success":
+        toast.success(message);
+        break;
+      default:
+        toast(message);
+    }
+  };
 
   const handleBackButton = () => {
     const newStep = step - 1;
@@ -141,6 +157,12 @@ const Apply = () => {
         body: formData,
       }
     );
+    if (response.ok) {
+      notify("Your job application form was submitted successfully", "success");
+      history.push("/");
+    } else {
+      notify("Something went wrong, please try again", "error");
+    }
   };
 
   const changeCallCode = (code) => {
