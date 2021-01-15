@@ -1,6 +1,8 @@
 import React from "react";
 import { Router, Switch, Route } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import history from "./routing/history";
 import LandingPage from "./features/landing/components/LandingPage";
@@ -15,6 +17,14 @@ function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <GlobalStyle />
+      <ToastContainer
+        position="top-center"
+        autoClose={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        draggable
+      />
       <Router history={history}>
         <Switch>
           <Route path="/" exact component={LandingPage} />
