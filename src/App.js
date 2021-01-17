@@ -29,7 +29,6 @@ function App() {
         <Switch>
           <Route path="/" exact component={LandingPage} />
           <Route path="/about" component={About} />
-          <Route path="/contact" component={Contact} />
           <Route path="/apply" component={Apply} />
           <Route component={PageNotFound} />
         </Switch>

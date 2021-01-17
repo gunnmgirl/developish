@@ -26,7 +26,7 @@ const OverlayBackground = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 5rem;
+  padding: 0 10%;
 `;
 
 const StyledH1 = styled.h1`
@@ -45,7 +45,10 @@ const Wrapper = styled.div`
 `;
 
 const StyledButton = styled(Button)`
-  width: 22rem;
+  width: 100%;
+  @media (min-width: 768px) {
+    width: 22rem;
+  }
 `;
 
 const LandingPage = () => {

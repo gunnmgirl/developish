@@ -33,16 +33,15 @@ const StyledInput = styled(Input)`
 `;
 
 const FormStepTwo = (props) => {
-  const { formik, changeCallCode, getCallCode } = props;
+  const { formik, changeCallCode, getCallCode, changeFlag, getFlag } = props;
   const [countries, setCountries] = React.useState([]);
   const [countryInfo, setCountryInfo] = React.useState(null);
-  const [flag, setFlag] = React.useState(null);
 
   const handleOnCountryChange = (props) => {
     formik.setFieldValue("country", props.value);
     const country = countryInfo.find((country) => country.name === props.label);
     changeCallCode(country.callingCodes[0]);
-    setFlag(country.flag);
+    changeFlag(country.flag);
   };
 
   const handleOnCountryBlur = () => {
@@ -116,7 +115,7 @@ const FormStepTwo = (props) => {
       >
         <Wrapper>
           <Container>
-            <FlagIcon icon={flag}></FlagIcon>
+            <FlagIcon icon={getFlag()}></FlagIcon>
             <span>{getCallCode()}</span>
           </Container>
           <StyledInput
