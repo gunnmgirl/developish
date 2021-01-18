@@ -6,9 +6,9 @@ import Header from "../../components/Header";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0 24rem;
   flex-grow: 1;
   justify-content: center;
+  padding: 0 20%;
 `;
 
 const MainContainer = styled.div`

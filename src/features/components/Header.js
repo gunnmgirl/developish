@@ -6,10 +6,16 @@ import Logo from "./Logo";
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 4rem;
   font-size: 1.5rem;
+  margin-bottom: 2rem;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.5rem 4rem;
+    margin: 0;
+  }
 `;
 
 const Wrapper = styled.div``;

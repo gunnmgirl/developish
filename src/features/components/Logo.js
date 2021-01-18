@@ -10,17 +10,19 @@ const LogoWrapper = styled.div`
 `;
 
 const StyledSpan = styled.span`
-  font-size: ${(props) => (props.large ? "3rem" : "1.4rem")};
+  font-size: ${(props) => (props.large ? "3rem" : "1.5rem")};
   margin: 0 1rem;
 `;
 
 const StyledNavLink = styled(NavLink)`
   text-decoration: none;
-  color: ${(props) =>
-    props.secondary ? props.theme.onSecondary : props.theme.onPrimary};
-  margin-right: ${(props) => props.marginright || "3rem"};
+  color: ${(props) => props.theme.onPrimary};
   &.active {
     color: ${(props) => props.theme.onPrimary};
+  }
+  @media (min-width: 768px) {
+    color: ${(props) =>
+      props.secondary ? props.theme.onSecondary : props.theme.onPrimary};
   }
 `;
 

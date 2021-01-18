@@ -32,7 +32,10 @@ const MainContainer = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: ${(props) => props.theme.ternary};
+  background-color: ${(props) => props.theme.primary};
+  @media (min-width: 768px) {
+    background-color: ${(props) => props.theme.ternary};
+  }
 `;
 
 const MainWrapper = styled.div`
@@ -88,6 +91,7 @@ const Apply = () => {
     stepOneValidation
   );
   const [callCode, setCallCode] = React.useState("");
+  const [flag, setFlag] = React.useState(null);
   const history = useHistory();
 
   const formik = useFormik({
@@ -169,6 +173,14 @@ const Apply = () => {
     setCallCode(code);
   };
 
+  const getFlag = () => {
+    return flag;
+  };
+
+  const changeFlag = (flag) => {
+    setFlag(flag);
+  };
+
   const getCallCode = () => {
     return callCode;
   };
@@ -188,6 +200,8 @@ const Apply = () => {
               formik={formik}
               changeCallCode={changeCallCode}
               getCallCode={getCallCode}
+              changeFlag={changeFlag}
+              getFlag={getFlag}
             />
           )}
           {step === 3 && <FormStepThree formik={formik} />}
