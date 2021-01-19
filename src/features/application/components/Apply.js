@@ -165,7 +165,8 @@ const Apply = () => {
       notify("Your job application form was submitted successfully", "success");
       history.push("/");
     } else {
-      notify("Something went wrong, please try again", "error");
+      const errorText = await response.text();
+      notify(errorText || "Something went wrong, please try again", "error");
     }
   };
 
