@@ -10,6 +10,7 @@ import Logo from "../../components/Logo";
 import FormStepOne from "./FormStepOne";
 import FormStepTwo from "./FormStepTwo";
 import FormStepThree from "./FormStepThree";
+import Spinner from "../../components/Spinner";
 
 const StyledButton = styled(Button)`
   width: 10rem;
@@ -18,6 +19,7 @@ const StyledButton = styled(Button)`
 
 const StyledForm = styled.form`
   width: 30rem;
+  min-height: 64%;
   background-color: ${(props) => props.theme.primary};
   display: flex;
   justify-content: center;
@@ -31,7 +33,7 @@ const MainContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh;
   background-color: ${(props) => props.theme.primary};
   @media (min-width: 768px) {
     background-color: ${(props) => props.theme.ternary};
@@ -92,6 +94,7 @@ const Apply = () => {
   );
   const [callCode, setCallCode] = React.useState("");
   const [flag, setFlag] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
   const history = useHistory();
 
   const formik = useFormik({
@@ -153,7 +156,7 @@ const Apply = () => {
     formData.append("phoneNumber", wholePhoneNumber);
     formData.append("skype", formik.values.skype);
     formData.append("previousPositions", formik.values.previousPositions);
-
+    setLoading(true);
     const response = await fetch(
       `${process.env.REACT_APP_DEVELOPSIO_API}/auth/signup`,
       {
@@ -161,6 +164,7 @@ const Apply = () => {
         body: formData,
       }
     );
+    setLoading(false);
     if (response.ok) {
       notify("Your job application form was submitted successfully", "success");
       history.push("/");
@@ -206,38 +210,42 @@ const Apply = () => {
             />
           )}
           {step === 3 && <FormStepThree formik={formik} />}
-          <ButtonWrapper>
-            {step > 1 && (
-              <StyledButton type="button" onClick={handleBackButton}>
-                Back
-              </StyledButton>
-            )}
-            {step === 3 ? (
-              <StyledButton
-                type="button"
-                onClick={() => {
-                  formik.handleSubmit();
-                  if (formik.isValid) {
-                    handleApplyButton();
-                  }
-                }}
-              >
-                Apply!
-              </StyledButton>
-            ) : (
-              <StyledButton
-                type="button"
-                onClick={() => {
-                  formik.handleSubmit();
-                  if (formik.isValid) {
-                    handleContinueButton();
-                  }
-                }}
-              >
-                Continue
-              </StyledButton>
-            )}
-          </ButtonWrapper>
+          {loading ? (
+            <Spinner />
+          ) : (
+            <ButtonWrapper>
+              {step > 1 && (
+                <StyledButton type="button" onClick={handleBackButton}>
+                  Back
+                </StyledButton>
+              )}
+              {step === 3 ? (
+                <StyledButton
+                  type="button"
+                  onClick={() => {
+                    formik.handleSubmit();
+                    if (formik.isValid) {
+                      handleApplyButton();
+                    }
+                  }}
+                >
+                  Apply!
+                </StyledButton>
+              ) : (
+                <StyledButton
+                  type="button"
+                  onClick={() => {
+                    formik.handleSubmit();
+                    if (formik.isValid) {
+                      handleContinueButton();
+                    }
+                  }}
+                >
+                  Continue
+                </StyledButton>
+              )}
+            </ButtonWrapper>
+          )}
         </MainWrapper>
       </StyledForm>
     </MainContainer>
