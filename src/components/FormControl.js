@@ -10,6 +10,7 @@ const Container = styled.div`
 
 const StyledCaption = styled.div`
   color: ${(props) => props.theme.onActive};
+  margin-top: 0.4rem;
 `;
 
 const FormControl = (props) => {
