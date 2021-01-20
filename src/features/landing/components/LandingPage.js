@@ -30,14 +30,27 @@ const OverlayBackground = styled.div`
 `;
 
 const StyledH1 = styled.h1`
-  font-size: 3rem;
-  font-weight: 700;
+  font-size: 1.6rem;
+  @media (min-width: 365px) {
+    font-size: 2rem;
+  }
+  @media (min-width: 600px) {
+    font-size: 3rem;
+    font-weight: 700;
+  }
 `;
 
 const StyledH2 = styled.h2`
-  font-size: 2rem;
-  font-weight: 500;
-  margin-bottom: 2rem;
+  font-size: 1rem;
+  font-weight: 300;
+  @media (min-width: 365px) {
+    font-size: 1.4rem;
+  }
+  @media (min-width: 600px) {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -70,8 +83,8 @@ const LandingPage = () => {
               Our mission is to help entrepreneurs launch new products &
               services, iterate and succeed faster.
             </StyledH2>
-            <StyledButton onClick={handleOnClick}>Apply</StyledButton>
           </Wrapper>
+          <StyledButton onClick={handleOnClick}>Apply</StyledButton>
         </OverlayBackground>
       </Container>
     </MainContainer>
