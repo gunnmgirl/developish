@@ -18,15 +18,23 @@ const Container = styled.div`
   }
 `;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  @media (min-width: 365px) {
+    flex-direction: row;
+  }
+`;
 
 const StyledNavLink = styled(NavLink)`
   text-decoration: none;
   color: ${(props) => props.theme.onPrimary};
-  margin-right: ${(props) => props.marginright || "3rem"};
   &.active {
     color: ${(props) =>
       props.noactivestyle ? props.theme.onPrimary : props.theme.onActive};
+  }
+  @media (min-width: 365px) {
+    margin-right: ${(props) => props.marginright || "3rem"};
   }
 `;
 
