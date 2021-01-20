@@ -73,6 +73,7 @@ const FormStepTwo = (props) => {
         <Select
           type="text"
           name="country"
+          placeholder=""
           options={countries}
           onChange={handleOnCountryChange}
           onBlur={handleOnCountryBlur}

@@ -31,6 +31,9 @@ const FormStepOne = (props) => {
         return { label: jobPosition.name, value: jobPosition.id };
       });
       setJobPositions(newJobPositions);
+      if (formik.values.positionId === "") {
+        formik.setFieldValue("positionId", newJobPositions[0].value);
+      }
     };
     if (jobPositions.length === 0) {
       getPositions();
@@ -83,9 +86,14 @@ const FormStepOne = (props) => {
           type="text"
           name="positionId"
           options={jobPositions}
-          value={jobPositions.find(
-            (jobPosition) => jobPosition.value === formik.values.positionId
-          )}
+          value={
+            jobPositions.find(
+              (jobPosition) => jobPosition.value === formik.values.positionId
+            ) ||
+            jobPositions[0] ||
+            null
+          }
+          placeholder=""
           onChange={handleOnJobPositionChange}
           onBlur={handleOnJobPositionBlur}
         />
