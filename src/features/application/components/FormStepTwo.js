@@ -117,7 +117,12 @@ const FormStepTwo = (props) => {
         <Wrapper>
           <Container>
             <FlagIcon icon={getFlag()}></FlagIcon>
-            <span>{getCallCode()}</span>
+            <span>
+              {formik &&
+                formik.values &&
+                formik.values.country &&
+                `+${getCallCode()}`}
+            </span>
           </Container>
           <StyledInput
             type="text"

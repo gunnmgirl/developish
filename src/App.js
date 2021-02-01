@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 import history from "./routing/history";
 import LandingPage from "./features/landing/components/LandingPage";
-import Contact from "./features/contact/components/ContactPage";
 import About from "./features/about/components/AboutPage";
 import PageNotFound from "./features/components/PageNotFound";
 import Apply from "./features/application/components/Apply";

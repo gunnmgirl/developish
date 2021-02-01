@@ -143,7 +143,7 @@ const Apply = () => {
   };
 
   const handleApplyButton = async () => {
-    const wholePhoneNumber = callCode.concat(formik.values.phoneNumber);
+    const wholePhoneNumber = `+${callCode}${formik.values.phoneNumber}`;
     const formData = new FormData();
     formData.append("file", formik.values.imageFile);
     formData.append("firstName", formik.values.firstName);
