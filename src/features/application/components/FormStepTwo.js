@@ -38,7 +38,7 @@ const FormStepTwo = (props) => {
   const [countryInfo, setCountryInfo] = React.useState(null);
 
   const handleOnCountryChange = (props) => {
-    formik.setFieldValue("country", props.value);
+    formik.setFieldValue("country", props.label);
     const country = countryInfo.find((country) => country.name === props.label);
     changeCallCode(country.callingCodes[0]);
     changeFlag(country.flag);
