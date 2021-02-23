@@ -18,7 +18,7 @@ function App() {
       <GlobalStyle />
       <ToastContainer
         position="top-center"
-        autoClose={false}
+        autoClose={5000}
         newestOnTop={false}
         closeOnClick
         rtl={false}
